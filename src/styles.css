@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@import "./styles/_variables.css";
+@import "./styles/_font-family.css";
+@import "./styles/_scroll.css";

@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Iran-Yekan';
+  src: url('/src/assets/fonts/iranyekan/woff2/iranyekan_variable.woff2') format('woff2'),
+    url('/src//assets/fonts/iranyekan/woff/iranyekan_variable.woff') format('woff'),
+    url('/src/assets/fonts/iranyekan/ttf/iranyekan_variable.ttf') format('ttf');
+}
+
+body * {
+  font-family: var(--primary-font);
+}
