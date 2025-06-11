@@ -1,6 +1,7 @@
 import { TablePagination } from "./TablePagination/TablePagination";
 import CaretUpFilled from "@ant-design/icons/CaretUpFilled";
 import CaretDownFilled from "@ant-design/icons/CaretDownFilled";
+import InboxOutlined from "@ant-design/icons/InboxOutlined";
 
 export interface TableColumn {
   key: string;
@@ -76,11 +77,22 @@ export default function Table<T extends { id: any }>({ data, columns, totalPages
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {data.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                  {renderRow(item)}
+              {data.length === 0 ? (
+                <tr>
+                  <td colSpan={columns.length} className="text-center py-10 text-gray-500">
+                    <div className="flex flex-col items-center justify-center gap-2">
+                      <InboxOutlined className="text-4xl text-gray-300" />
+                      <span className="text-sm">موردی برای نمایش یافت نشد</span>
+                    </div>
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                data.map((item) => (
+                  <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                    {renderRow(item)}
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
