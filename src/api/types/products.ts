@@ -5,6 +5,13 @@ export interface ProductModel {
   title: string;
   description: string;
   price: number;
+  brand: string;
+  category: string;
+  discountPercentage: number;
+  rating: number;
+  returnPolicy: string;
+  warrantyInformation: string;
+  thumbnail: string;
 }
 
 export interface GetProductsResponse extends BaseApiModel {

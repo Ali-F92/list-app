@@ -24,7 +24,7 @@ interface TableProps<T> {
   renderRow: (item: T) => React.ReactNode;
 }
 
-export default function Table<T>({ data, columns, totalPages, currentPage, onPageChange, sort, onSortChange, renderRow }: TableProps<T>) {
+export default function Table<T extends { id: any }>({ data, columns, totalPages, currentPage, onPageChange, sort, onSortChange, renderRow }: TableProps<T>) {
 
   const onSortHandler = (key: string) => {
     if (sort && sort.key === key) {
@@ -76,8 +76,8 @@ export default function Table<T>({ data, columns, totalPages, currentPage, onPag
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {data.map((item, idx) => (
-                <tr key={idx} className="hover:bg-gray-50 transition-colors">
+              {data.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                   {renderRow(item)}
                 </tr>
               ))}

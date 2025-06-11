@@ -1,10 +1,10 @@
 import { Suspense, useState } from "react";
-import SearchBox from "../SearchBox/SearchBox";
 import ProductsTable from "./ProductsTable/ProductsTable";
-import TableLoading from "../Table/TableLoading/TableLoading";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import TableError from "../Table/TableError/TableError";
+import SearchBox from "../../components/SearchBox/SearchBox";
+import TableError from "../../components/Table/TableError/TableError";
+import TableLoading from "../../components/Table/TableLoading/TableLoading";
 
 export default function Products() {
   const [searchText, setSearchText] = useState<string>("");

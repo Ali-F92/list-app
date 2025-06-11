@@ -10,3 +10,8 @@
 body {
   font-size: 14px;
 }
+
+#modal-root {
+  position: relative;
+  z-index: 999;
+}
