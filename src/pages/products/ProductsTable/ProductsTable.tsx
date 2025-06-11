@@ -40,7 +40,7 @@ export default function ProductsTable({ searchText }: ProductsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sort, setSort] = useState<SortTableState>(null);
   const [modalData, setModalData] = useState<ProductModel | null>(null);
-  const { data } = useGetProducts(currentPage, dataLimitPerPage, searchText, sort);
+  const { data } = useGetProducts(currentPage, dataLimitPerPage, searchText.trim(), sort);
 
   const totalPages = Math.ceil(data.total / dataLimitPerPage);
 
