@@ -1,13 +1,16 @@
 import { Suspense, useState } from "react";
-import ProductsTable from "./ProductsTable/ProductsTable";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
+
+import ProductsTable from "./ProductsTable/ProductsTable";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import TableError from "../../components/Table/TableError/TableError";
 import TableLoading from "../../components/Table/TableLoading/TableLoading";
+import { useDebounce } from "../../hooks/use-debounce";
 
 export default function Products() {
   const [searchText, setSearchText] = useState<string>("");
+  const debouncedSearchText = useDebounce(searchText, 700);
 
   return (
     <>
@@ -24,7 +27,7 @@ export default function Products() {
                 )}
               >
                 <Suspense fallback={<TableLoading />}>
-                  <ProductsTable searchText={searchText} />
+                  <ProductsTable searchText={debouncedSearchText} />
                 </Suspense>
               </ErrorBoundary>
             )}
