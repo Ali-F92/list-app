@@ -6,5 +6,6 @@ export const useGetProducts = (page: number, limit: number, searchText: string, 
   return useSuspenseQuery({
     queryKey: ["products", page, limit, searchText, sort],
     queryFn: () => getProducts(page, limit, searchText, sort),
+    retry: 2
   });
 }

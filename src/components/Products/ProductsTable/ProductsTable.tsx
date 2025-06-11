@@ -1,6 +1,5 @@
 import Table, { SortTableState, TableColumn } from "../../Table/Table";
 import { useGetProducts } from "../../../hooks/queries/useGetProducts";
-import TableError from "../../Table/TableError/TableError";
 import { ProductModel } from "../../../api/types/products";
 import { useState } from "react";
 
@@ -30,12 +29,7 @@ const productsTableColumns: TableColumn[] = [
 export default function ProductsTable({ searchText }: ProductsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sort, setSort] = useState<SortTableState>(null);
-  const { data, error, refetch } = useGetProducts(currentPage, dataLimitPerPage, searchText, sort);
-
-
-  if (error) {
-    return <TableError message={error.message} onCta={refetch} />;
-  }
+  const { data } = useGetProducts(currentPage, dataLimitPerPage, searchText, sort);
 
   const totalPages = Math.ceil(data.total / dataLimitPerPage);
 
