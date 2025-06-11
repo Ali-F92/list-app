@@ -1,6 +1,7 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 
 import ProductsTable from "./ProductsTable/ProductsTable";
 import SearchBox from "../../components/SearchBox/SearchBox";
@@ -8,9 +9,24 @@ import TableError from "../../components/Table/TableError/TableError";
 import TableLoading from "../../components/Table/TableLoading/TableLoading";
 import { useDebounce } from "../../hooks/use-debounce";
 
+
 export default function Products() {
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const [searchText, setSearchText] = useState<string>(initialSearch);
   const debouncedSearchText = useDebounce(searchText, 700);
+
+  useEffect(() => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (debouncedSearchText) {
+        newParams.set("search", debouncedSearchText);
+      } else {
+        newParams.delete("search");
+      }
+      return newParams;
+    });
+  }, [debouncedSearchText, setSearchParams]);
 
   return (
     <>
