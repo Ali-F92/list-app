@@ -43,7 +43,7 @@ export default function Products() {
                 )}
               >
                 <Suspense fallback={<TableLoading />}>
-                  <ProductsTable searchText={debouncedSearchText} />
+                  <ProductsTable searchText={debouncedSearchText} key={debouncedSearchText} />
                 </Suspense>
               </ErrorBoundary>
             )}
