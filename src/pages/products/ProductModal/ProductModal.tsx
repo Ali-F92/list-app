@@ -37,7 +37,7 @@ export default function ProductModal({ product }: ProductModalProps) {
 
           <div className="flex items-center justify-between border-b border-gray-200 pb-2">
             <span className="text-gray-600 font-medium">امتیاز:</span>
-            <span>{product.rating}/5</span>
+            <span>{product.rating}</span>
           </div>
 
           <div className="flex items-center justify-between border-b border-gray-200 pb-2">

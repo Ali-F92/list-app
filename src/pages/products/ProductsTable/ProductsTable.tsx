@@ -40,7 +40,7 @@ const productsTableColumns: TableColumn[] = [
 export default function ProductsTable({ searchText }: ProductsTableProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageFromUrl = parseInt(searchParams.get("page") || "1", 10);
-  
+
   const [sort, setSort] = useState<SortTableState>(null);
   const [modalData, setModalData] = useState<ProductModel | null>(null);
   const { data } = useGetProducts(pageFromUrl, dataLimitPerPage, searchText.trim(), sort);
@@ -63,7 +63,7 @@ export default function ProductsTable({ searchText }: ProductsTableProps) {
         <td className="px-4 py-4">
           <button
             onClick={() => setModalData(product)}
-            className="text-blue-600 hover:underline text-sm cursor-pointer"
+            className="text-blue-600 hover:underline text-sm cursor-pointer focus:outline-none"
           >
             جزئیات
           </button>

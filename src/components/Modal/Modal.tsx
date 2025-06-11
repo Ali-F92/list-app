@@ -1,6 +1,8 @@
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { useEscapeCloseModal } from './hooks/use-escape-close-modal';
+import { useAppendModalRoot } from './hooks/use-append-modal-root';
 
 interface ModalProps {
   children: ReactNode;
@@ -12,30 +14,16 @@ interface ModalProps {
 }
 
 export default function Modal({ children, onClose, isOpen, overlayClassName, modalClassName, closeOnOverlayClick }: ModalProps) {
-  const el = document.createElement('div');
+  const portalRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const modalRoot = document.getElementById('modal-root');
-
-    if (!modalRoot) {
-      return;
-    }
-
-    modalRoot.appendChild(el);
-
-    return () => {
-      modalRoot.removeChild(el);
-    };
-  }, [el]);
+  if (!portalRef.current) {
+    portalRef.current = document.createElement('div');
+  }
+  useEscapeCloseModal(isOpen, onClose);
+  useAppendModalRoot(portalRef.current, isOpen);
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
       onClose();
     }
   };
@@ -46,7 +34,6 @@ export default function Modal({ children, onClose, isOpen, overlayClassName, mod
     <div
       className={`fixed inset-0 bg-black/40 flex justify-center items-center z-50 ${overlayClassName}`}
       onClick={handleOverlayClick}
-      onKeyDown={handleKeyDown}
       role="dialog"
       aria-modal="true"
     >
@@ -56,7 +43,7 @@ export default function Modal({ children, onClose, isOpen, overlayClassName, mod
       >
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4 text-gray-500 hover:text-gray-700`}
+          className={`absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors`}
           aria-label="Close modal"
         >
           <CloseOutlined className="text-lg" />
@@ -64,6 +51,6 @@ export default function Modal({ children, onClose, isOpen, overlayClassName, mod
         {children}
       </div>
     </div>,
-    el
+    portalRef.current
   );
 }
