@@ -62,10 +62,10 @@ export function TablePagination({
 
       <button
         className={`p-2 rounded-full transition flex items-center justify-center w-8 h-8
-          ${currentPage === totalPages
+          ${currentPage === totalPages || totalPages === 0
             ? "bg-gray-100 text-gray-400 cursor-not-allowed"
             : "bg-white hover:bg-blue-100 text-blue-600 shadow-sm"}`}
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || totalPages === 0}
         onClick={() => onPageChange(currentPage + 1)}
       >
         <LeftOutlined className="text-sm" />
