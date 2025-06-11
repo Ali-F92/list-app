@@ -1,9 +1,10 @@
 import Table, { SortTableState, TableColumn } from "../../../components/Table/Table";
 import { useGetProducts } from "../../../hooks/queries/useGetProducts";
 import { ProductModel } from "../../../api/types/products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../../components/Modal/Modal";
 import ProductModal from "../ProductModal/ProductModal";
+import { useSearchParams } from "react-router";
 
 interface ProductsTableProps {
   searchText: string;
@@ -37,10 +38,18 @@ const productsTableColumns: TableColumn[] = [
 ]
 
 export default function ProductsTable({ searchText }: ProductsTableProps) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageFromUrl = parseInt(searchParams.get("page") || "1", 10);
+  
   const [sort, setSort] = useState<SortTableState>(null);
   const [modalData, setModalData] = useState<ProductModel | null>(null);
-  const { data } = useGetProducts(currentPage, dataLimitPerPage, searchText.trim(), sort);
+  const { data } = useGetProducts(pageFromUrl, dataLimitPerPage, searchText.trim(), sort);
+
+  const setPage = (page: number) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("page", page.toString());
+    setSearchParams(newParams);
+  };
 
   const totalPages = Math.ceil(data.total / dataLimitPerPage);
 
@@ -63,14 +72,20 @@ export default function ProductsTable({ searchText }: ProductsTableProps) {
     );
   }
 
+  useEffect(() => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("page", "1");
+    setSearchParams(newParams);
+  }, [searchText]);
+
   return (
     <>
       <Table<ProductModel>
         data={data.products}
         columns={productsTableColumns}
         totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        currentPage={pageFromUrl}
+        onPageChange={setPage}
         sort={sort}
         onSortChange={setSort}
         renderRow={renderRow}
