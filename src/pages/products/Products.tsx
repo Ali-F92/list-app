@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { startTransition, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
@@ -16,6 +16,12 @@ export default function Products() {
   const [searchText, setSearchText] = useState<string>(initialSearch);
   const debouncedSearchText = useDebounce(searchText, 700);
 
+  const searchTextchangeHandler = (value: string) => {
+    startTransition(() => {
+      setSearchText(value);
+    });
+  }
+
   useEffect(() => {
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
@@ -31,7 +37,7 @@ export default function Products() {
   return (
     <>
       <div className="flex flex-col h-full p-2" dir="rtl">
-        <SearchBox searchText={searchText} setSearchText={setSearchText} placeholder="عنوان محصول ..." classes="max-w-sm" />
+        <SearchBox searchText={searchText} onSearchTextchange={searchTextchangeHandler} placeholder="عنوان محصول ..." classes="max-w-sm" />
 
         <div className="flex-1 mt-2 overflow-y-auto">
           <QueryErrorResetBoundary>

@@ -1,14 +1,13 @@
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
-import { Dispatch, SetStateAction } from "react";
 
 interface SearchBoxProps {
   searchText: string;
-  setSearchText: Dispatch<SetStateAction<string>>,
+  onSearchTextchange: (value: string) => void,
   placeholder: string;
   classes?: string;
 }
 
-export default function SearchBox({ searchText, setSearchText, placeholder, classes }: SearchBoxProps) {
+export default function SearchBox({ searchText, onSearchTextchange, placeholder, classes }: SearchBoxProps) {
 
   return (
     <div className={classes} dir="rtl">
@@ -18,7 +17,7 @@ export default function SearchBox({ searchText, setSearchText, placeholder, clas
           type="text"
           placeholder={placeholder}
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => onSearchTextchange(e.target.value)}
           className="flex-1 p-1 bg-transparent outline-none text-gray-700"
         />
       </div>
