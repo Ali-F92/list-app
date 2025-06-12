@@ -1,9 +1,11 @@
-import Table, { SortTableState, TableColumn } from "../../../components/Table/Table";
-import { useGetProducts } from "../../../hooks/queries/useGetProducts";
-import { ProductModel } from "../../../api/types/products";
-import { useState } from "react";
-import Modal from "../../../components/Modal/Modal";
+import { useCallback, useState } from "react";
+
 import ProductModal from "../ProductModal/ProductModal";
+import Table, { SortTableState, TableColumn } from "../../../../components/Table/Table";
+import { ProductModel } from "../../../../api/types/products";
+import { useGetProducts } from "../../../../hooks/queries/useGetProducts";
+import Modal from "../../../../components/Modal/Modal";
+import ProductTableRow from "../ProductTableRow/ProductTableRow";
 
 interface ProductsTableProps {
   searchText: string;
@@ -40,28 +42,20 @@ export default function ProductsTable({ searchText }: ProductsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sort, setSort] = useState<SortTableState>(null);
   const [modalData, setModalData] = useState<ProductModel | null>(null);
-  const { data } = useGetProducts(currentPage, dataLimitPerPage, searchText.trim(), sort);
+  const { data } = useGetProducts({
+    page: currentPage,
+    limit: dataLimitPerPage,
+    searchText: searchText.trim(),
+    sort
+  });
 
   const totalPages = Math.ceil(data.total / dataLimitPerPage);
 
-  const renderRow = (product: ProductModel) => {
+  const renderRow = useCallback((product: ProductModel) => {
     return (
-      <>
-        <td className="px-4 py-4">{product.title}</td>
-        <td className="px-4 py-4">{product.category}</td>
-        <td className="px-4 py-4">{product.price}</td>
-        <td className="px-4 py-4">{product.discountPercentage}</td>
-        <td className="px-4 py-4">
-          <button
-            onClick={() => setModalData(product)}
-            className="text-blue-600 hover:underline text-sm cursor-pointer focus:outline-none"
-          >
-            جزئیات
-          </button>
-        </td>
-      </>
+      <ProductTableRow product={product} onDetailsClick={setModalData} />
     );
-  }
+  }, [setModalData]);
 
   return (
     <>

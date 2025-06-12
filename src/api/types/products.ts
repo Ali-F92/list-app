@@ -1,4 +1,5 @@
 import { BaseApiModel } from "./base-api";
+import { SortTableState } from "../../components/Table/Table";
 
 export interface ProductModel {
   id: number;
@@ -16,4 +17,11 @@ export interface ProductModel {
 
 export interface GetProductsResponse extends BaseApiModel {
   products: ProductModel[];
+}
+
+export interface GetProductsConfig {
+  page: number;
+  limit: number;
+  searchText: string;
+  sort: SortTableState;
 }

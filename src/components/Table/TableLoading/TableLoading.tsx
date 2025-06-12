@@ -1,16 +1,6 @@
-export default function TableLoading() {
-  const renderSkeletonRows = () => {
-    return Array.from({ length: 5 }).map((_, rowIndex) => (
-      <tr key={`skeleton-${rowIndex}`} className="animate-pulse">
-        {Array.from({ length: 4 }).map((_, colIndex) => (
-          <td key={colIndex} className="px-4 py-4">
-            <div className="h-6 bg-gray-200 rounded w-3/4"></div>
-          </td>
-        ))}
-      </tr>
-    ));
-  };
+import TableRowsSkeleton from "./TableRowsSkeleton/TableRowsSkeleton";
 
+export default function TableLoading() {
   return (
     <div className="w-full h-full flex flex-col rounded-2xl shadow-sm overflow-hidden bg-white border border-gray-200" dir="rtl">
       <div className="max-h-[calc(100%-60px)] overflow-auto grow">
@@ -23,7 +13,7 @@ export default function TableLoading() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {renderSkeletonRows()}
+            <TableRowsSkeleton rows={5} colomns={4} />
           </tbody>
         </table>
       </div>

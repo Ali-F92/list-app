@@ -1,4 +1,4 @@
-import { ProductModel } from "../../../api/types/products";
+import { ProductModel } from "../../../../api/types/products";
 
 interface ProductModalProps {
   product: ProductModel

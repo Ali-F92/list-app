@@ -3,11 +3,11 @@ import { ErrorBoundary } from "react-error-boundary";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 
-import ProductsTable from "./ProductsTable/ProductsTable";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import TableError from "../../components/Table/TableError/TableError";
 import TableLoading from "../../components/Table/TableLoading/TableLoading";
 import { useDebounce } from "../../hooks/use-debounce";
+import ProductsTable from "./components/ProductsTable/ProductsTable";
 
 
 export default function Products() {

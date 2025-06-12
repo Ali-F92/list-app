@@ -1,8 +1,7 @@
-import { SortTableState } from "../components/Table/Table";
 import { BASE_URL } from "./base-url";
-import { GetProductsResponse } from "./types/products";
+import { GetProductsConfig, GetProductsResponse } from "./types/products";
 
-export const getProducts = async (page: number, limit: number, searchText: string, sort: SortTableState): Promise<GetProductsResponse> => {
+export const getProducts = async ({page, limit, searchText, sort}: GetProductsConfig): Promise<GetProductsResponse> => {
   let url: string = '';
   if (searchText) {
     url = `${BASE_URL}/products/search?q=${searchText}&skip=${(page - 1) * limit}&limit=${limit}`;
