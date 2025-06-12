@@ -8,31 +8,22 @@ import TableError from "../../components/Table/TableError/TableError";
 import TableLoading from "../../components/Table/TableLoading/TableLoading";
 import { useDebounce } from "../../hooks/use-debounce";
 import ProductsTable from "./components/ProductsTable/ProductsTable";
+import { useSyncSearchParam } from "../../hooks/use-sync-search-param";
 
 
 export default function Products() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
   const [searchText, setSearchText] = useState<string>(initialSearch);
   const debouncedSearchText = useDebounce(searchText, 700);
+
+  useSyncSearchParam('search', debouncedSearchText);
 
   const searchTextchangeHandler = (value: string) => {
     startTransition(() => {
       setSearchText(value);
     });
   }
-
-  useEffect(() => {
-    setSearchParams((prev) => {
-      const newParams = new URLSearchParams(prev);
-      if (debouncedSearchText) {
-        newParams.set("search", debouncedSearchText);
-      } else {
-        newParams.delete("search");
-      }
-      return newParams;
-    });
-  }, [debouncedSearchText, setSearchParams]);
 
   return (
     <>
